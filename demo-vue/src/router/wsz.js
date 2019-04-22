@@ -5,7 +5,15 @@ const wszRouter = [
     meta: {
       title: '用户登录'
     },
-    component: () => import('@/view/login')
+    component: () => import('@/login')
+  },
+  {
+    path: '/register',
+    name: 'register',
+    meta: {
+      title: '用户注册'
+    },
+    component: () => import('@/register')
   }
 ]
 export default wszRouter

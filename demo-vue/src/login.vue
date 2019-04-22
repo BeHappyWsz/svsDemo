@@ -10,13 +10,14 @@
       <el-form-item>
         <el-button type="primary" @click="submitForm('loginForm')">提交</el-button>
         <el-button @click="resetForm('loginForm')">重置</el-button>
-        <el-button @click="resetForm('loginForm')">注册</el-button>
+        <el-button @click="toRegister('loginForm')">注册</el-button>
       </el-form-item>
     </el-form>
   </div>
 </template>
 <script>
 import {userLogin} from '@/service/login'
+import { Loading } from 'element-ui'
 export default {
   name: 'login',
   data () {
@@ -53,18 +54,23 @@ export default {
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          userLogin(this.$refs.loginName.value.trim(),
-            this.$refs.loginPass.value.trim()).then(res => {
+          let loadingInstance = Loading.service({ fullscreen: false })
+          var loginParams = {
+            userName: this.$refs.loginName.value.trim(),
+            password: this.$refs.loginPass.value.trim()
+          }
+          userLogin(loginParams).then(res => {
             var data = res.data
             if (data.code === 200) {
               this.$store.state.user = data.data
+              this.$router.push({path: '/register'})
             } else {
-              alert(data.errMsg)
+              this.$message(data.errMsg)
             }
           }).catch(res => {
 
           }).finally(() => {
-
+            loadingInstance.close()
           })
         } else {
           return false
@@ -73,6 +79,9 @@ export default {
     },
     resetForm (formName) {
       this.$refs[formName].resetFields()
+    },
+    toRegister () {
+      this.$router.push({path: '/register'})
     }
   }
 }
