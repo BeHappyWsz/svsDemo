@@ -56,14 +56,14 @@ export default {
         if (valid) {
           let loadingInstance = Loading.service({ fullscreen: false })
           var loginParams = {
-            userName: this.$refs.loginName.value.trim(),
+            username: this.$refs.loginName.value.trim(),
             password: this.$refs.loginPass.value.trim()
           }
           userLogin(loginParams).then(res => {
             var data = res.data
             if (data.code === 200) {
               this.$store.state.user = data.data
-              this.$router.push({path: '/register'})
+              this.$router.push({path: '/index'})
             } else {
               this.$message(data.errMsg)
             }
