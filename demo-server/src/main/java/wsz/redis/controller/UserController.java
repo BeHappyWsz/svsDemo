@@ -12,6 +12,8 @@ import wsz.redis.common.CommonResult;
 import wsz.redis.entity.User;
 import wsz.redis.service.UserService;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @description: 用户管理
  * @author: WSZ
@@ -51,9 +53,10 @@ public class UserController {
             @ApiImplicitParam(name = "username", value = "用户名", defaultValue = "", required = true),
             @ApiImplicitParam(name = "password", value = "用户密码", defaultValue = "", required = true)
     })
-    public CommonResult login(String username, String password){
+    public CommonResult login(String username, String password, HttpServletRequest request){
         CommonResult commonResult = new CommonResult();
         try {
+            request.getSession().setAttribute("aa", request.getRequestURI());
             commonResult.setData(userService.login(username, password));
             commonResult.setCode(200);
         } catch (Exception e) {
