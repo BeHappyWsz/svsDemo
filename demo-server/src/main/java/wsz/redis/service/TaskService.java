@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import wsz.redis.dao.UserRepository;
@@ -19,7 +18,6 @@ import java.util.UUID;
  **/
 @Slf4j
 @Service
-//@EnableScheduling
 public class TaskService {
 
     @Autowired
@@ -32,7 +30,7 @@ public class TaskService {
     /**
      * 生产者
      */
-    @Scheduled(fixedRate=1000*3, initialDelay = 0)
+//    @Scheduled(fixedRate=1000*3, initialDelay = 0)
     public void produce(){
         User user = new User();
         String uuid = UUID.randomUUID().toString().replaceAll("-", "");
@@ -45,7 +43,7 @@ public class TaskService {
     /**
      * 消费者
      */
-    @Scheduled(fixedRate=1000*2, initialDelay = 3000)
+//    @Scheduled(fixedRate=1000*2, initialDelay = 3000)
     public void consumer(){
         JSONObject obj = JSONObject.parseObject(redisTemplate.opsForList().rightPop(KEY));
         if(!StringUtils.isEmpty(obj)){

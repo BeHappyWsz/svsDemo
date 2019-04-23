@@ -9,8 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import wsz.redis.common.CommonResult;
-import wsz.redis.entity.User;
 import wsz.redis.service.UserService;
+import wsz.redis.vo.UserVo;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -28,15 +28,11 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @GetMapping("")
-    @ApiOperation(value = "用户获取", notes = "", response = User.class)
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "ids", value = "用户id列表",paramType = "query",dataType = "Long")
-    })
-    public CommonResult getUser(@RequestParam(required = false) Long[] ids){
+    @PostMapping("/page")
+    public CommonResult getUser(@RequestBody UserVo vo){
         CommonResult commonResult = new CommonResult();
         try {
-            commonResult.setData(userService.findUser(ids));
+            commonResult.setData(userService.findByPage(vo));
             commonResult.setCode(200);
         } catch (Exception e) {
             e.printStackTrace();
@@ -111,13 +107,12 @@ public class UserController {
     @DeleteMapping("")
     @ApiOperation(value = "用户删除", notes = "")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "userName", value = "用户名", defaultValue = "", required = true),
-            @ApiImplicitParam(name = "password", value = "用户密码", defaultValue = "", required = true)
+            @ApiImplicitParam(name = "uid", value = "用户主键", required = true)
     })
-    public CommonResult deleteUser(String userName, String password){
+    public CommonResult deleteUser(Long uid){
         CommonResult commonResult = new CommonResult();
         try {
-            commonResult.setData(userService.deleteUser(userName, password));
+            userService.deleteUser(uid);
             commonResult.setCode(200);
         } catch (Exception e) {
             e.printStackTrace();

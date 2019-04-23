@@ -2,6 +2,9 @@ package wsz.redis.service;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -9,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import wsz.redis.dao.UserRepository;
 import wsz.redis.entity.User;
+import wsz.redis.vo.UserVo;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -113,6 +117,16 @@ public class UserService {
     }
 
     /**
+     * 删除
+     * @param uid
+     * @return
+     * @throws Exception
+     */
+    public void deleteUser(Long uid) throws Exception {
+        userRepository.deleteById(uid);
+    }
+
+    /**
      * 搜索用户
      * @param ids
      * @return
@@ -122,5 +136,18 @@ public class UserService {
             return userRepository.findByIds(ids);
         }
         return userRepository.findAll(Sort.by(Sort.Order.asc("id")));
+    }
+
+    /**
+     *
+     * @param vo
+     * @return
+     */
+    public Page<User> findByPage(UserVo vo){
+        Pageable pageable = PageRequest.of(vo.getPage(), vo.getSize());
+        if (StringUtils.isEmpty(vo.getUserName())) {
+            return userRepository.findAll(pageable);
+        }
+        return userRepository.findByPage(vo.getUserName(), pageable);
     }
 }
