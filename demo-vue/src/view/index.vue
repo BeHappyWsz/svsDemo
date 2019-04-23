@@ -14,29 +14,27 @@
         <el-aside width="200px">
           <!-- 用户管理 -->
           <el-menu
-            :default-active="this.$route.path"
+            :default-active="$route.path"
             :unique-opened=false
             :collapse=false
             :router=true
             text-color="#fff"
             background-color="#545c64"
             active-text-color="#ffd04b">
-            <template v-for="(item) in this.$router.options.routes">
-              <template :index="index" v-for="(menu, index) in item.children">
-                <el-submenu :key="menu.name" :index="index + ''">
-                  <template slot="title"><i class="el-icon-menu"></i>{{menu.name}}</template>
-                  <el-menu-item :index="sub.path" :key="sIndex" v-for="(sub, sIndex) in menu.children">{{sub.name}}</el-menu-item>
+            <template v-for="(item, index) in $router.options.routes">
+              <template v-if="item.menu">
+                <el-submenu :key="item.name" :index="index + ''">
+                  <template slot="title"><i class="el-icon-menu"></i>{{item.name}}</template>
+                  <el-menu-item :index="sub.path" :key="sIndex" v-for="(sub, sIndex) in item.children">{{sub.name}}</el-menu-item>
                 </el-submenu>
               </template>
             </template>
           </el-menu>
         </el-aside>
         <!-- 主体内容 -->
-        <el-container>
-          <el-main>
-            <router-view name="indexRouter">aa</router-view>
-          </el-main>
-        </el-container>
+        <el-main>
+          <router-view name="indexRouter"></router-view>
+        </el-main>
       </el-container>
     </el-container>
   </div>
@@ -49,8 +47,6 @@ export default{
     }
   },
   mounted () {
-    console.log(this.$route)
-    console.log(this.$router.options.routes)
   }
 }
 </script>

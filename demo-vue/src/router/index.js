@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import wszRouter from './wsz'
+import menuRouter from './menu'
 
 Vue.use(Router)
 
@@ -14,7 +15,8 @@ const router = new Router({
       },
       redirect: '/login'
     },
-    ...wszRouter
+    ...wszRouter,
+    ...menuRouter
   ]
 })
 export default router
