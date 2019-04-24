@@ -118,12 +118,12 @@ public class UserService {
 
     /**
      * 删除
-     * @param uid
+     * @param ids
      * @return
      * @throws Exception
      */
-    public void deleteUser(Long uid) throws Exception {
-        userRepository.deleteById(uid);
+    public int deleteUser(Long[] ids) throws Exception {
+        return userRepository.deleteByIds(ids);
     }
 
     /**

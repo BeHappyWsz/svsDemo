@@ -107,12 +107,12 @@ public class UserController {
     @DeleteMapping("")
     @ApiOperation(value = "用户删除", notes = "")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "uid", value = "用户主键", required = true)
+            @ApiImplicitParam(name = "ids", value = "用户主键", required = true)
     })
-    public CommonResult deleteUser(Long uid){
+    public CommonResult deleteUser(Long[] ids){
         CommonResult commonResult = new CommonResult();
         try {
-            userService.deleteUser(uid);
+            commonResult.setData(userService.deleteUser(ids));
             commonResult.setCode(200);
         } catch (Exception e) {
             e.printStackTrace();

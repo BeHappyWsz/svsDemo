@@ -8,6 +8,6 @@ export const allUsers = (params) => {
 }
 
 /* 所有用户 */
-export const deleteUser = (uid) => {
-  return axios.delete(Global.getContextPath() + '/user?uid=' + uid)
+export const deleteUser = (ids) => {
+  return axios.delete(Global.getContextPath() + '/user?ids=' + ids)
 }

@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import wsz.redis.dao.UserRepository;
@@ -75,7 +74,7 @@ public class TaskService implements ApplicationRunner {
      * 生产者将数据存到ZSest有序集合中
      * 1.score延后5秒
      */
-    @Scheduled(fixedRate= 500, initialDelay = 0)
+//    @Scheduled(fixedRate= 500, initialDelay = 0)
     public void produceList() {
         User user = new User();
         String uuid = UUID.randomUUID().toString().replaceAll("-", "");

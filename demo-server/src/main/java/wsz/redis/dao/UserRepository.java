@@ -3,9 +3,11 @@ package wsz.redis.dao;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.QueryHints;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 import wsz.redis.entity.User;
 
 import javax.persistence.QueryHint;
@@ -28,6 +30,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query(value = "select u from User u where u.id in (:ids) order by u.id asc")
     List<User> findByIds(@Param("ids") Long[] ids);
+
+    @Modifying
+    @Transactional
+    @Query(value = "delete from User u where u.id in (:ids)")
+    int deleteByIds(@Param("ids") Long[] ids);
 
     @QueryHints(value = { @QueryHint(name = HINT_COMMENT, value = "a query for pageable")})
     @Query("select u from User u where u.userName like CONCAT('%',:userName,'%')")
