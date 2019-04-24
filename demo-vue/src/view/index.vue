@@ -11,20 +11,25 @@
       </el-header>
       <el-container>
         <!-- 侧边栏 -->
-        <el-aside width="200px">
+        <el-aside :width="asideWidth + 'px'">
+          <el-button @click="slideOpen" v-show="!isCollapse" size="small" class="side-button" icon="el-icon-d-arrow-left" type="info"/>
+          <el-button @click="slideOpen" v-show="isCollapse" size="small" class="side-button" icon="el-icon-d-arrow-right" type="info"/>
           <!-- 用户管理 -->
           <el-menu
+            :collapse="isCollapse"
             :default-active="$route.path"
             :unique-opened=false
-            :collapse=false
             :router=true
             text-color="#fff"
             background-color="#545c64"
             active-text-color="#ffd04b">
             <template v-for="(item, index) in $router.options.routes">
               <template v-if="item.menu">
-                <el-submenu :key="item.name" :index="index + ''">
-                  <template slot="title"><i class="el-icon-menu"></i>{{item.name}}</template>
+                <el-submenu :key="item.name + '-' + index" :index="index + ''">
+                  <template slot="title">
+                    <i class="el-icon-menu"></i>
+                    <span slot="title">{{item.name}}</span>
+                  </template>
                   <el-menu-item :index="sub.path" :key="sIndex" v-for="(sub, sIndex) in item.children">{{sub.name}}</el-menu-item>
                 </el-submenu>
               </template>
@@ -44,9 +49,23 @@ export default{
   name: 'index',
   data () {
     return {
+      asideWidth: 60,
+      isCollapse: true
     }
   },
-  mounted () {
+  methods: {
+    slideOpen () {
+      this.isCollapse = !this.isCollapse
+    }
+  },
+  watch: {
+    isCollapse: function (val, oldVal) {
+      if (val) {
+        this.asideWidth = 64
+      } else {
+        this.asideWidth = 200
+      }
+    }
   }
 }
 </script>
@@ -91,5 +110,10 @@ body > .el-container {
 
 .el-container:nth-child(7) .el-aside {
   line-height: 320px;
+}
+.side-button{
+  top: 15px;
+  left: 50px;
+  position: absolute;
 }
 </style>

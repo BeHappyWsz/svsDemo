@@ -7,11 +7,12 @@
     <!-- 删除按钮 -->
     <el-button @click="deleteUsers" :disabled="delDisabled" type="danger">删除</el-button>
     <!-- table -->
-    <el-table height="360" style="width: 100%;" highlight-current-row
+    <el-table height="340" style="width: 100%;" highlight-current-row
       ref="userTable"
       border
       :tripe="true"
       :data="tableData"
+      header-row-class-name="headerRow"
       @selection-change="checkUser"
       @row-dblclick="rowDblClick">
       <el-table-column type="selection" width="55"/>
@@ -143,7 +144,7 @@ export default {
 }
 </script>
 <style>
-.tableHeader{
+.headerRow th{
   height: 50px !important;
 }
 </style>
