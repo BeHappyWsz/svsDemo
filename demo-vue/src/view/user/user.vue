@@ -1,18 +1,30 @@
 <template>
-  <div>
-    <!-- 搜索功能 -->
-    <el-input v-model="searchName" style="width:200px;" size="mini" :clearable="true" placeholder="请输入内容">
-      <el-button slot="append" icon="el-icon-search" @click="doSearchName"></el-button>
-    </el-input>
-    <!-- 删除按钮 -->
-    <el-button @click="deleteUsers" :disabled="delDisabled" type="danger">删除</el-button>
+  <section>
+    <el-col :span="24" class="toolbar" style="padding-bottom: 0px;height:45px;">
+      <el-form :inline="true" style="height:45px;">
+        <el-form-item>
+          <el-input v-model="searchName" :clearable="true" placeholder="请输入内容"></el-input>
+        </el-form-item>
+        <!-- 搜索功能 -->
+        <el-form-item>
+          <el-button type="primary" @click="doSearchName">查询</el-button>
+        </el-form-item>
+        <!-- 新增功能 -->
+        <el-form-item>
+          <el-button type="primary" @click="openAddForm">新增</el-button>
+        </el-form-item>
+        <!-- 删除按钮 -->
+        <el-form-item>
+          <el-button type="danger" @click="deleteUsers" :disabled="delDisabled">删除</el-button>
+        </el-form-item>
+      </el-form>
+    </el-col>
     <!-- table -->
     <el-table height="340" style="width: 100%;" highlight-current-row
       ref="userTable"
       border
       :tripe="true"
       :data="tableData"
-      header-row-class-name="headerRow"
       @selection-change="checkUser"
       @row-dblclick="rowDblClick">
       <el-table-column type="selection" width="55"/>
@@ -30,12 +42,25 @@
       @size-change="pagiSizeChange"
       @current-change="pagiCurrentChange"
       :current-page="1"
-      :page-sizes="[20, 100, 500]"
+      :page-sizes="[20, 50, 100]"
       :page-size="pageSize"
+      style="height:50px;"
       layout="total, sizes, prev, pager, next, jumper"
       :total="total">
     </el-pagination>
-  </div>
+    <!--新增界面-->
+    <el-dialog title="新增" center v-show="addFormVisible" :close-on-click-modal="false">
+      <el-form ref="editForm">
+        <el-form-item label="姓名">
+          <el-input auto-complete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click.native="addFormVisible = false">取消</el-button>
+        <el-button type="primary">提交</el-button>
+      </div>
+    </el-dialog>
+  </section>
 </template>
 <script>
 import {allUsers, deleteUser} from '@/service/user'
@@ -49,7 +74,9 @@ export default {
       tableData: null,
       searchName: '',
       delDisabled: true,
-      checkData: null
+      checkData: null,
+      // 弹出窗口
+      addFormVisible: false
     }
   },
   methods: {
@@ -136,6 +163,10 @@ export default {
         ids.push(user.id)
       }
       this.deleteData(ids)
+    },
+    /* 新增窗口 */
+    openAddForm () {
+      this.addFormVisible = true
     }
   },
   mounted () {
@@ -143,8 +174,6 @@ export default {
   }
 }
 </script>
-<style>
-.headerRow th{
-  height: 50px !important;
-}
+<style scope>
+
 </style>

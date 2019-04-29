@@ -37,7 +37,7 @@
           </el-menu>
         </el-aside>
         <!-- 主体内容 -->
-        <el-main>
+        <el-main style="height:100%;">
           <router-view name="indexRouter"></router-view>
         </el-main>
       </el-container>

@@ -8,7 +8,7 @@ const menuRouter = [
     children: [
       {
         path: '/index/user',
-        name: '用户管理',
+        name: '用户信息',
         components: {
           // 指定一个路由view，否则页面组件无法加载
           indexRouter: () => import('@/view/user/user')
@@ -26,23 +26,16 @@ const menuRouter = [
   {
     path: '/index',
     menu: true,
-    name: '用户管理',
+    name: '文件管理',
     // 默认一个component，否则会跳转到空页面
     component: () => import('@/view/index'),
     children: [
       {
-        path: '/index/user1',
-        name: '用户管理',
+        path: '/index/file',
+        name: '文件上传',
         components: {
           // 指定一个路由view，否则页面组件无法加载
-          indexRouter: () => import('@/view/user/user')
-        }
-      },
-      {
-        path: '/index/charts1',
-        name: '用户统计',
-        components: {
-          indexRouter: () => import('@/view/user/charts')
+          indexRouter: () => import('@/view/user/file')
         }
       }
     ]

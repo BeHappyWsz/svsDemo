@@ -25,3 +25,5 @@ spring:
     show-sql: false
   session:
     store-type: redis
+
+uploadFileUrl: d://upload/
